@@ -1,4 +1,4 @@
-package com.example.newbox.Annotation;
+package com.example.javafxsupport;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
 
-@Component
+
 public class AbstractSupportJAVAFX extends Application {
     private static Logger LOGGER = LoggerFactory.getLogger(AbstractSupportJAVAFX.class);
     private static ConfigurableApplicationContext applicationContext;

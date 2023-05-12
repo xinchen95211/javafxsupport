@@ -1,11 +1,11 @@
-package com.example.newbox.Annotation;
+package com.example.javafxsupport;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
@@ -20,7 +20,6 @@ public abstract class AbstractFxmlController implements ApplicationContextAware 
     private ApplicationContext applicationContext;
     //资源路径
     private Stage stage;
-    private final URL resource;
 
     private String GUIState_name;
 
@@ -28,15 +27,15 @@ public abstract class AbstractFxmlController implements ApplicationContextAware 
     private GUIState guiState;
 
     protected AbstractFxmlController() {
-        annotation = getAnnotation();
-        resource = getResource(annotation);
-        GUIState_name = getGUIState_name(annotation);
-
+        this.annotation = getAnnotation();
+        this.GUIState_name = getGUIState_name(annotation);
 
     }
 
     private URL getResource(final FxmlController annotation) {
-        return getClass().getResource(annotation.value());
+            return this.getClass().getResource(annotation.value());
+
+
     }
 
     public FxmlController getAnnotation(){
@@ -45,7 +44,7 @@ public abstract class AbstractFxmlController implements ApplicationContextAware 
         return annotation;
     }
     private String getGUIState_name(final FxmlController annotation){
-        return annotation.value().substring(0,annotation.value().lastIndexOf("."));
+        return annotation.value();
     }
 
     @Override
@@ -56,25 +55,18 @@ public abstract class AbstractFxmlController implements ApplicationContextAware 
         this.applicationContext = applicationContext;
     }
 //    加载fxml
-    public FXMLLoader fxmlLoader(final URL resource){
-        FXMLLoader loader = new FXMLLoader(resource);
+    public FXMLLoader fxmlLoader(String GUIState_name){
+        FXMLLoader loader = FXMLLoaderFactory.getRoot(GUIState_name);
         loader.setControllerFactory(this::load_controller);
-
-        try {
-            loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-
         return loader;
     }
     //设置控制器
     public Object load_controller(final Class<?> type){
-        return applicationContext.getBean(type);
+        return this.applicationContext.getBean(type);
     }
 
     public void show_view(Stage stage){
+
         if (stage != null){
             stage.setScene(null);
             guiState = GUIState.getInstance(GUIState_name);
@@ -84,21 +76,21 @@ public abstract class AbstractFxmlController implements ApplicationContextAware 
 
     }
     public void show_view(){
+
         guiState = GUIState.getInstance(GUIState_name);
         if (stage == null) {
             stage = guiState.stage;
         }
-
+        hide();
         if (stage.getScene() == null){
-            FXMLLoader fxmlLoader = fxmlLoader(resource);
+            FXMLLoader fxmlLoader = fxmlLoader(GUIState_name);
             final Parent parent = fxmlLoader.getRoot();
             stage.setScene(new Scene(parent));
         }
-
         stage.show();
     }
     public void hide(){
-        if (stage != null) stage.hide();
+        if (stage != null) {stage.hide();}
     }
 
 

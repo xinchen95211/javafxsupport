@@ -1,21 +1,13 @@
-package com.example.newbox.Annotation;
+package com.example.javafxsupport;
 
 import javafx.application.HostServices;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.awt.*;
-import java.beans.PropertyChangeEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * The enum {@link GUIState} stores Scene and Stage objects as singletons in
- * this VM.
- *
- * @author Felix Roske
- * @author Andreas Jay
- */
 public class GUIState {
 	private static Map<String, GUIState> states = new HashMap<>();
 

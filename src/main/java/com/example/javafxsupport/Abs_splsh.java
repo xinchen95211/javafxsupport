@@ -1,4 +1,4 @@
-package com.example.newbox.Annotation;
+package com.example.javafxsupport;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -14,13 +14,11 @@ class LoadingView extends StackPane {
     int i = 0;
     public LoadingView() {
         label = new Label("Loading");
-        label.setFont(Font.font(25));
+        label.setFont(Font.font(40));
         getChildren().add(label);
-
         // 开始动画
         animateDots();
     }
-
     private void animateDots() {
         // 创建一个timeline来循环动画
         Timeline timeline = new Timeline(
@@ -34,7 +32,7 @@ class LoadingView extends StackPane {
         String text = label.getText();
         label.setText(text + ".");
         i++;
-        if (i == 4){
+        if (i == 5){
             i = 0;
             label.setText("loading");
         }
