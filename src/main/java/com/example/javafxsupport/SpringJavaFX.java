@@ -28,19 +28,18 @@ public class SpringJavaFX {
 
 
     }
-    public static void lunch(Class<? extends SpringJavaFX> bclacc,String[] args){
-        lunch(bclacc,new Abs_splsh(),args);
+    public static void lunch(Class<? extends SpringJavaFX> bclacc,
+                             Class<? extends AbstractFxmlView> controller,
+                             String[] args){
+        lunch(bclacc,controller,new Abs_splsh(),args);
     }
     public static void lunch(Class<? extends SpringJavaFX> bclacc,
+                             Class<? extends AbstractFxmlView> controller,
                              Abs_splsh init,
                              String[] args){
 
         aClass = bclacc;
         arg = args;
-
-
-
-
         CompletableFuture<Runnable> first = CompletableFuture.supplyAsync(() -> {
             init_splsh = Objects.requireNonNullElseGet(init, Abs_splsh::new);
             GUIState.getInstance().setData(init_splsh);
@@ -51,12 +50,15 @@ public class SpringJavaFX {
             Platform.runLater(r2);
         });
         applicationContext = SpringApplication.run(bclacc, args);
+        showView(controller);
         close();
 
     }
-    public static void showView(Class<? extends AbstractFxmlController> window) {
-        AbstractFxmlController view = applicationContext.getBean(window);
+    public static void showView(Class<? extends AbstractFxmlView> window) {
+        Platform.runLater(() -> {
+        AbstractFxmlView view = applicationContext.getBean(window);
         view.show_view();
+        });
     }
 
     public static void close(){
