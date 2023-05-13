@@ -13,3 +13,6 @@
 3.启动
   直接使用静态方法启动
     <img width="805" alt="截屏2023-05-13 17 21 16" src="https://github.com/xinchen95211/javafxsupport/assets/76147759/bde8486f-ed29-4143-bec2-d17d2a5461a7">
+
+
+示例代码 https://github.com/xinchen95211/NewBox
