@@ -15,6 +15,9 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 加载fxml静态工厂类
+ */
 
 
 public class FXMLLoaderFactory {
@@ -39,7 +42,6 @@ public class FXMLLoaderFactory {
             ResourceLoader resourceLoader = new PathMatchingResourcePatternResolver();
             Resource resource = resourceLoader.getResource("classpath:" + fxmlPath);
             FXMLLoader fxmlLoader = new FXMLLoader(resource.getURL());
-            fxmlLoader.load();
             return fxmlLoader;
         } catch (Exception e) {
             LOGGER.error("没有找到对应的 + "+fxmlPath+"文件");

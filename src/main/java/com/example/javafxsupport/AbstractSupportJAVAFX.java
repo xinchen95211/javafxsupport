@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
 
-@Component
 public class AbstractSupportJAVAFX extends Application {
     private static Logger LOGGER = LoggerFactory.getLogger(AbstractSupportJAVAFX.class);
     private static ConfigurableApplicationContext applicationContext;
@@ -21,8 +20,8 @@ public class AbstractSupportJAVAFX extends Application {
     static Abs_splsh init_splsh;
     private static Class<?> newBoxApplicationClass;
     private final CompletableFuture<Runnable> splashIsShowing = new CompletableFuture<>();
-    private static Class<? extends AbstractFxmlView> loginControllerClass;
-
+    private static Class<? extends AbstractFxmlController> loginControllerClass;
+    private static String[] saveargs = new String[0];
     @Override
     public void start(Stage stage) {
 
@@ -40,7 +39,7 @@ public class AbstractSupportJAVAFX extends Application {
     @Override
     public void init() {
         CompletableFuture.supplyAsync(() ->
-                new SpringApplicationBuilder(AbstractSupportJAVAFX.newBoxApplicationClass).run()).
+                new SpringApplicationBuilder(AbstractSupportJAVAFX.newBoxApplicationClass).run(saveargs)).
                 whenComplete((ctx, throwable) -> {
                     lunch_ctx(ctx);
         }).thenAcceptBothAsync(splashIsShowing, (ctx, closeSplash) -> {
@@ -55,20 +54,36 @@ public class AbstractSupportJAVAFX extends Application {
         applicationContext.close();
         Platform.exit();
     }
-    public static void showView(Class<? extends AbstractFxmlView> window) {
-        AbstractFxmlView view =applicationContext.getBean(window);
+    public static void showView(Class<? extends AbstractFxmlController> window) {
+        AbstractFxmlController view =applicationContext.getBean(window);
         view.show_view();
     }
+
+    /**
+     * 启动器
+     * @param BoxApplicationClass spingboot的启动类
+     * @param loginController 初始启动页面
+     * @param args args
+     */
     public static void launcher(Class<?> BoxApplicationClass,
-                                Class<? extends AbstractFxmlView> loginController,
+                                Class<? extends AbstractFxmlController> loginController,
                                 String[] args){
         launcher(BoxApplicationClass,loginController,new Abs_splsh(),args);
 
     }
+
+    /**
+     *
+     * @param BoxApplicationClass spingboot的启动类
+     * @param loginController 初始启动页面
+     * @param is 启动动画类
+     * @param args args
+     */
     public static void launcher(Class<?> BoxApplicationClass,
-                                Class<? extends AbstractFxmlView> loginController,
+                                Class<? extends AbstractFxmlController> loginController,
                                  Abs_splsh is,
                                 String[] args){
+        saveargs = args;
         if (is != null){
             init_splsh = is;
         }else {

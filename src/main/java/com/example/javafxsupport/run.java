@@ -7,7 +7,12 @@ import javafx.stage.StageStyle;
 import org.springframework.stereotype.Component;
 
 
-@Component
+//@Component
+
+/**
+ *
+ */
+@Deprecated
 public class run extends Application {
 
 

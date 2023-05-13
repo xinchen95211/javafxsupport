@@ -9,6 +9,18 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
+/**
+ * 启动动画类，继承此类可以重写启动动画
+ */
+
+public class Abs_splsh {
+    public Scene load(){
+        LoadingView view = new LoadingView();
+        Scene scene = new Scene(view, 200, 100);
+        scene.setFill(null);
+        return scene;
+    }
+}
 class LoadingView extends StackPane {
     private Label label;
     int i = 0;
@@ -36,14 +48,6 @@ class LoadingView extends StackPane {
             i = 0;
             label.setText("loading");
         }
-    }
-}
-public class Abs_splsh {
-    public Scene load(){
-        LoadingView view = new LoadingView();
-        Scene scene = new Scene(view, 200, 100);
-        scene.setFill(null);
-        return scene;
     }
 }
 

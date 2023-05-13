@@ -8,6 +8,9 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * GUI静态管理类
+ */
 public class GUIState {
 	private static Map<String, GUIState> states = new HashMap<>();
 

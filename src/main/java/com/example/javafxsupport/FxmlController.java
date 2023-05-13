@@ -8,9 +8,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Component
-//@Lazy
+@Lazy
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FxmlController {
-
+    String value() default "";
 }
 

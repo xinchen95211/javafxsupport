@@ -9,6 +9,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * 另一种实现方式，有一些bug。勿用
+ */
+@Deprecated
 public class SpringJavaFX {
     private static Class<? extends SpringJavaFX> aClass;
     private static final CompletableFuture<Runnable> splashIsShowing = new CompletableFuture<>();
@@ -29,12 +33,12 @@ public class SpringJavaFX {
 
     }
     public static void lunch(Class<? extends SpringJavaFX> bclacc,
-                             Class<? extends AbstractFxmlView> controller,
+                             Class<? extends AbstractFxmlController> controller,
                              String[] args){
         lunch(bclacc,controller,new Abs_splsh(),args);
     }
     public static void lunch(Class<? extends SpringJavaFX> bclacc,
-                             Class<? extends AbstractFxmlView> controller,
+                             Class<? extends AbstractFxmlController> controller,
                              Abs_splsh init,
                              String[] args){
 
@@ -54,10 +58,10 @@ public class SpringJavaFX {
         close();
 
     }
-    public static void showView(Class<? extends AbstractFxmlView> window) {
+    public static void showView(Class<? extends AbstractFxmlController> window) {
         Platform.runLater(() -> {
-        AbstractFxmlView view = applicationContext.getBean(window);
-        view.show_view();
+            AbstractFxmlController view = applicationContext.getBean(window);
+            view.show_view();
         });
     }
 
