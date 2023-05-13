@@ -1,4 +1,4 @@
-# javafxsupport
+# springboot整合javafx支持
 一个简单的javafx与springboot整合的包。使用springboot3.0.5。java 17.0.6构建
 
 1.使用
