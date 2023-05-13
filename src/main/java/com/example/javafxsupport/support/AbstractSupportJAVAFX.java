@@ -1,5 +1,7 @@
-package com.example.javafxsupport;
+package com.example.javafxsupport.support;
 
+import com.example.javafxsupport.Abs_splsh;
+import com.example.javafxsupport.AbstractFxmlController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -7,13 +9,16 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
 
 
+/**
+ * 有bug，无法自动扫描，已切到新的启动方式
+ */
+@Deprecated
 public class AbstractSupportJAVAFX extends Application {
     private static Logger LOGGER = LoggerFactory.getLogger(AbstractSupportJAVAFX.class);
     private static ConfigurableApplicationContext applicationContext;
@@ -22,7 +27,7 @@ public class AbstractSupportJAVAFX extends Application {
     private static Class<?> newBoxApplicationClass;
     private final CompletableFuture<Runnable> splashIsShowing = new CompletableFuture<>();
     private static Class<? extends AbstractFxmlController> loginControllerClass;
-
+    private static String[] savedArgs = new String[0];
     @Override
     public void start(Stage stage) {
 
@@ -40,12 +45,12 @@ public class AbstractSupportJAVAFX extends Application {
     @Override
     public void init() {
         CompletableFuture.supplyAsync(() ->
-                new SpringApplicationBuilder(AbstractSupportJAVAFX.newBoxApplicationClass).run()).
+                        SpringApplication.run(newBoxApplicationClass,savedArgs)).
                 whenComplete((ctx, throwable) -> {
                     lunch_ctx(ctx);
         }).thenAcceptBothAsync(splashIsShowing, (ctx, closeSplash) -> {
             Platform.runLater(closeSplash);
-        });;
+        });
     }
     public void lunch_ctx(final ConfigurableApplicationContext context){
         applicationContext = context;
@@ -69,6 +74,7 @@ public class AbstractSupportJAVAFX extends Application {
                                 Class<? extends AbstractFxmlController> loginController,
                                  Abs_splsh is,
                                 String[] args){
+        savedArgs = args;
         if (is != null){
             init_splsh = is;
         }else {

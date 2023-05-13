@@ -17,6 +17,16 @@ public class GUIState {
 	public HostServices hostServices;
 	public SystemTray systemTray;
 
+	public Object data() {
+		return data;
+	}
+
+	public void setData(Object data) {
+		this.data = data;
+	}
+
+	public Object data;
+
 	private GUIState() {}
 
 	public static GUIState getInstance() {
@@ -28,7 +38,9 @@ public class GUIState {
 			return states.get(name);
 		} else {
 			GUIState state = new GUIState();
-			state.stage = new Stage();
+			if (! "default".equals(name)){
+				state.stage = new Stage();
+			}
 			states.put(name, state);
 			return state;
 		}
@@ -40,43 +52,43 @@ public class GUIState {
 		return states.get(name);
 	}
 
-	public static String getTitle() {
-		return getInstance().title;
+	public static String getTitle(String name) {
+		return getInstance(name).title;
 	}
 
-	public static Scene getScene() {
-		return getInstance().scene;
+	public static Scene getScene(String name) {
+		return getInstance(name).scene;
 	}
 
-	public static Stage getStage() {
-		return getInstance().stage;
+	public static Stage getStage(String name) {
+		return getInstance(name).stage;
 	}
 
-	public static HostServices getHostServices() {
-		return getInstance().hostServices;
+	public static HostServices getHostServices(String name) {
+		return getInstance(name).hostServices;
 	}
 
-	public static SystemTray getSystemTray() {
-		return getInstance().systemTray;
+	public static SystemTray getSystemTray(String name) {
+		return getInstance(name).systemTray;
 	}
 
-	public static void setTitle(final String title) {
-		getInstance().title = title;
+	public static void setTitle(final String name,final String title) {
+		getInstance(name).title = title;
 	}
 
-	public static void setScene(final Scene scene) {
-		getInstance().scene = scene;
+	public static void setScene(final String name,final Scene scene) {
+		getInstance(name).scene = scene;
 	}
 
-	public static void setStage(final Stage stage) {
-		getInstance().stage = stage;
+	public static void setStage(final String name,final Stage stage) {
+		getInstance(name).stage = stage;
 	}
 
-	public static void setHostServices(HostServices hostServices) {
-		getInstance().hostServices = hostServices;
+	public static void setHostServices(String name,HostServices hostServices) {
+		getInstance(name).hostServices = hostServices;
 	}
 
-	public static void setSystemTray(SystemTray systemTray) {
-		getInstance().systemTray = systemTray;
+	public static void setSystemTray(String name,SystemTray systemTray) {
+		getInstance(name).systemTray = systemTray;
 	}
 }
