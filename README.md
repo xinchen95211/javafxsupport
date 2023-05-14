@@ -5,10 +5,12 @@
   导入jar包
 2.编写fxml文件及控制器类
   使用注解
-  <img width="1203" alt="截屏2023-05-13 17 20 36" src="https://github.com/xinchen95211/javafxsupport/assets/76147759/3371a282-baf0-4807-aa8e-b1c1f2ce3494">
- 
+
+ <img width="797" alt="截屏2023-05-14 18 35 35" src="https://github.com/xinchen95211/javafxsupport/assets/76147759/cb448243-d2b2-4578-bf0e-1890dc9a3829">
+
  fxml文件路径
-  <img width="379" alt="截屏2023-05-13 17 21 57" src="https://github.com/xinchen95211/javafxsupport/assets/76147759/66befe31-b7fa-46f2-bffe-2088c6aa5e53">
+
+<img width="362" alt="截屏2023-05-14 18 35 50" src="https://github.com/xinchen95211/javafxsupport/assets/76147759/2590083a-f0ea-477d-9e41-4acb1d3fe372">
 
 3.启动
   继承SpringJavaFX调用方法。
