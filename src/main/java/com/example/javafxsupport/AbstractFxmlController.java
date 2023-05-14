@@ -88,10 +88,10 @@ public abstract class AbstractFxmlController implements ApplicationContextAware 
      * @return
      */
     public FXMLLoader fxmlLoader(String GUIState_name){
-//        FXMLLoader loader = FXMLLoaderFactory.getRoot(GUIState_name);
+        FXMLLoader loader = FXMLLoaderFactory.getRoot(this.getClass(),GUIState_name);
 
         try {
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource(GUIState_name));
+
             Objects.requireNonNull(loader).setControllerFactory(this::load_controller);
             loader.load();
             return loader;

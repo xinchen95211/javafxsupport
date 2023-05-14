@@ -24,16 +24,15 @@ import java.util.Map;
 
 @Component
 public class FXMLLoaderFactory {
-    @Value("${classpath:}")
-    private String value;
     //获取classpath路径
     private static Logger LOGGER = LoggerFactory.getLogger(FXMLLoaderFactory.class);
     private static final Map<String, FXMLLoader> fxmlLoaders  = new HashMap<>();
 
     public static FXMLLoader getRoot(
+                                Class<?> aclacc,
                                 String fxmlName) {
         if (!fxmlLoaders.containsKey(fxmlName)) {
-            FXMLLoader fxmlLoader = loadFXML(fxmlName);
+            FXMLLoader fxmlLoader = loadFXML(aclacc,fxmlName);
             if (fxmlLoader != null){
                 fxmlLoaders.put(fxmlName, fxmlLoader);
             }else {
@@ -43,21 +42,15 @@ public class FXMLLoaderFactory {
         return fxmlLoaders.get(fxmlName);
     }
 
-    private static FXMLLoader loadFXML(String fxmlPath) {
+    private static FXMLLoader loadFXML(
+            Class<?> aclacc,
+            String fxmlPath) {
         try {
+//            ResourceLoader resourceLoader = new PathMatchingResourcePatternResolver();
+//           Resource resource = resourceLoader.getResource("classpath:/"+ fxmlPath);
+//            LOGGER.error(resource.getURL().toString());
 
-
-            String classpath = System.getProperty("java.class.path");
-            LOGGER.info(classpath);
-
-
-
-
-            ResourceLoader resourceLoader = new PathMatchingResourcePatternResolver();
-           Resource resource = resourceLoader.getResource("classpath:/"+ fxmlPath);
-            LOGGER.error(resource.getURL().toString());
-
-            FXMLLoader fxmlLoader = new FXMLLoader(resource.getURL());
+            FXMLLoader fxmlLoader = new FXMLLoader(aclacc.getResource(fxmlPath));
             return fxmlLoader;
         } catch (Exception e) {
 //            System.out.println(e);
