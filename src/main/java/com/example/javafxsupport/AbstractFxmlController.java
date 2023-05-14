@@ -6,19 +6,23 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
+import java.util.Objects;
 
 
 /**
  * 控制器类自动加载注入类
  */
 public abstract class AbstractFxmlController implements ApplicationContextAware {
+
 
     //注解
     private final FxmlController annotation;
@@ -84,14 +88,17 @@ public abstract class AbstractFxmlController implements ApplicationContextAware 
      * @return
      */
     public FXMLLoader fxmlLoader(String GUIState_name){
-        FXMLLoader loader = FXMLLoaderFactory.getRoot(GUIState_name);
-        loader.setControllerFactory(this::load_controller);
+//        FXMLLoader loader = FXMLLoaderFactory.getRoot(GUIState_name);
+
         try {
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource(GUIState_name));
+            Objects.requireNonNull(loader).setControllerFactory(this::load_controller);
             loader.load();
+            return loader;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return loader;
+
     }
 
     public Object load_controller(final Class<?> type){

@@ -9,10 +9,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
-/**
- * 另一种实现方式，有一些bug。勿用
- */
-@Deprecated
 public class SpringJavaFX {
     private static Class<? extends SpringJavaFX> aClass;
     private static final CompletableFuture<Runnable> splashIsShowing = new CompletableFuture<>();

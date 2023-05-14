@@ -7,12 +7,16 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
 
+
+@Deprecated
 public class AbstractSupportJAVAFX extends Application {
     private static Logger LOGGER = LoggerFactory.getLogger(AbstractSupportJAVAFX.class);
     private static ConfigurableApplicationContext applicationContext;
@@ -39,12 +43,12 @@ public class AbstractSupportJAVAFX extends Application {
     @Override
     public void init() {
         CompletableFuture.supplyAsync(() ->
-                new SpringApplicationBuilder(AbstractSupportJAVAFX.newBoxApplicationClass).run(saveargs)).
+                SpringApplication.run(newBoxApplicationClass,saveargs)).
                 whenComplete((ctx, throwable) -> {
                     lunch_ctx(ctx);
         }).thenAcceptBothAsync(splashIsShowing, (ctx, closeSplash) -> {
             Platform.runLater(closeSplash);
-        });;
+        });
     }
     public void lunch_ctx(final ConfigurableApplicationContext context){
         applicationContext = context;

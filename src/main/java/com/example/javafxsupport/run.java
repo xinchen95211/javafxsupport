@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 /**
  *
  */
-@Deprecated
 public class run extends Application {
 
 
