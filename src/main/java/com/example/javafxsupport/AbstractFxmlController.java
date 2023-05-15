@@ -91,7 +91,6 @@ public abstract class AbstractFxmlController implements ApplicationContextAware 
         FXMLLoader loader = FXMLLoaderFactory.getRoot(this.getClass(),GUIState_name);
 
         try {
-
             Objects.requireNonNull(loader).setControllerFactory(this::load_controller);
             loader.load();
             return loader;

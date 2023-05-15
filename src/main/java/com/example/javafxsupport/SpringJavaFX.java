@@ -2,31 +2,64 @@ package com.example.javafxsupport;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class SpringJavaFX {
+public class SpringJavaFX{
     private static Class<? extends SpringJavaFX> aClass;
     private static final CompletableFuture<Runnable> splashIsShowing = new CompletableFuture<>();
     static Class<run> runClass = run.class;
     static Abs_splsh init_splsh;
     static ConfigurableApplicationContext applicationContext;
+
+    static Class< ?extends AbstractFxmlController> cclass;
+
     private static String[] arg = new String[0];
-    public static void main(String[] args) {
-        CompletableFuture<Runnable> first = CompletableFuture.supplyAsync(() -> {
-            Application.launch(runClass,arg);
-            return () -> {};
+//    public static void main(String[] args) {
+//        CompletableFuture<Runnable> first = CompletableFuture.supplyAsync(() -> {
+//            Application.launch(runClass,arg);
+//            return () -> {};
+//        });
+//        first.thenAcceptBothAsync(splashIsShowing,(r1, r2) -> {
+//            Platform.runLater(r2);
+//        });
+//
+//
+//
+//    }
+    public static void init(){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        CompletableFuture.supplyAsync(() ->
+                SpringApplication.run(aClass, arg), executor
+        ).whenComplete((ctx, throwable) -> {
+            if (throwable != null) {
+                executor.shutdown();
+            } else {
+                Platform.runLater(() -> {
+                    launchApplicationView(ctx);
+                });
+            }
+        }).thenAcceptBothAsync(splashIsShowing, (ctx, closeSplash) -> {
+            executor.shutdown();
+            Platform.runLater(closeSplash);
         });
-        first.thenAcceptBothAsync(splashIsShowing,(r1, r2) -> {
-            Platform.runLater(r2);
+
+        splashIsShowing.complete(() -> {
+            showView(cclass);
+            close();
         });
+    }
 
 
-
+    private static void launchApplicationView(final ConfigurableApplicationContext ctx) {
+        applicationContext = ctx;
     }
     public static void lunch(Class<? extends SpringJavaFX> bclacc,
                              Class<? extends AbstractFxmlController> controller,
@@ -40,18 +73,15 @@ public class SpringJavaFX {
 
         aClass = bclacc;
         arg = args;
-        CompletableFuture<Runnable> first = CompletableFuture.supplyAsync(() -> {
-            init_splsh = Objects.requireNonNullElseGet(init, Abs_splsh::new);
-            GUIState.getInstance().setData(init_splsh);
-            Application.launch(runClass,arg);
-            return () -> {};
-        });
-        first.thenAcceptBothAsync(splashIsShowing,(r1, r2) -> {
-            Platform.runLater(r2);
-        });
-        applicationContext = SpringApplication.run(bclacc, args);
-        showView(controller);
-        close();
+        init();
+//        applicationContext = SpringApplication.run(bclacc, args);
+        cclass = controller;
+        init_splsh = Objects.requireNonNullElseGet(init, Abs_splsh::new);
+
+        GUIState.getInstance().setData(init_splsh);
+        Application.launch(runClass,arg);
+
+
 
     }
     public static void showView(Class<? extends AbstractFxmlController> window) {
@@ -62,13 +92,13 @@ public class SpringJavaFX {
     }
 
     public static void close(){
-        Platform.runLater(() -> {
+//        Platform.runLater(() -> {
             try {
                 runClass.getMethod("close").invoke(arg);
             }
             catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 System.out.println(e.getMessage());
             }
-        });
+//        });
     }
 }
