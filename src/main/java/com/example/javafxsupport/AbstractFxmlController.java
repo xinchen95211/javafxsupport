@@ -1,5 +1,6 @@
 package com.example.javafxsupport;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -7,6 +8,7 @@ import javafx.stage.Stage;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
@@ -28,7 +30,7 @@ public abstract class AbstractFxmlController implements ApplicationContextAware 
     private final FxmlController annotation;
     private ApplicationContext applicationContext;
     //资源路径
-    protected Stage stage;
+    public Stage stage;
 
     private String GUIState_name;
 
@@ -157,6 +159,10 @@ public abstract class AbstractFxmlController implements ApplicationContextAware 
         if (stage != null) {stage.close();}
     }
 
+    public void shutdown(){
+        Platform.exit();
+        SpringApplication.exit(applicationContext);
+    }
 
 
 

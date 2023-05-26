@@ -6,8 +6,10 @@ import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.beans.Introspector;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
+import java.util.Timer;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -74,7 +76,6 @@ public class SpringJavaFX{
         aClass = bclacc;
         arg = args;
         init();
-//        applicationContext = SpringApplication.run(bclacc, args);
         cclass = controller;
         init_splsh = Objects.requireNonNullElseGet(init, Abs_splsh::new);
 
@@ -85,10 +86,16 @@ public class SpringJavaFX{
 
     }
     public static void showView(Class<? extends AbstractFxmlController> window) {
-        Platform.runLater(() -> {
             AbstractFxmlController view = applicationContext.getBean(window);
             view.show_view();
-        });
+    }
+    public static <T extends AbstractFxmlController> T getView(Class<T> window) {
+        return applicationContext.getBean(window);
+    }
+    public static <T extends AbstractFxmlController> T show_and_getView(Class<T> window){
+        T view = getView(window);
+        view.show_view();
+        return view;
     }
 
     public static void close(){

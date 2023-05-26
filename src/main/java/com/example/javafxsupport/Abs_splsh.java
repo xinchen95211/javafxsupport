@@ -16,16 +16,17 @@ import javafx.util.Duration;
 public class Abs_splsh {
     public Scene load(){
         LoadingView view = new LoadingView();
-        Scene scene = new Scene(view, 200, 100);
+        Scene scene = new Scene(view);
+        view.setStyle("-fx-background-color: transparent;");
         scene.setFill(null);
         return scene;
     }
 }
 class LoadingView extends StackPane {
     private Label label;
-    int i = 0;
+    int i = 4;
     public LoadingView() {
-        label = new Label("Loading");
+        label = new Label("Loading...");
         label.setFont(Font.font(40));
         getChildren().add(label);
         // 开始动画
